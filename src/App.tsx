@@ -1,9 +1,14 @@
 import React from "react";
-
-function App() {
-  return <div className="App">
-    <h1 className="text-6xl">hello world</h1>
-  </div>;
-}
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import WordlePage from "./pages/wordle-page";
+const App = () => {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<WordlePage />} />
+      </Routes>
+    </BrowserRouter>
+  );
+};
 
 export default App;
