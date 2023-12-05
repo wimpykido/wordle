@@ -5,7 +5,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/sign-in" element={<WordlePage />} />
+        <Route path="/" element={<WordlePage />} />
       </Routes>
     </BrowserRouter>
   );
