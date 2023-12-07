@@ -2,17 +2,22 @@
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
-    extend: {
-      colors: {
+    colors: {
+      custom: {
+        light: "#dce1ed",
+        dark: "#a4aec4",
+        yellow: "#f3c237",
+        green: "#79b851",
+        text: "#414a5e",
+        border: "#dee1e9",
+        hover: "#c4cbdd",
         customBackground: "#fbfcff",
         customBorder: "#dee1e9",
         customBorder2: "#a7adc0",
         letterColor: "#393e4c",
       },
-      fontSize: {
-        35: "35px",
-      },
     },
+    extend: {},
   },
   plugins: [],
 };
