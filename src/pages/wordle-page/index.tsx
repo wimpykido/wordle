@@ -2,6 +2,10 @@ import { useState } from "react";
 import { Keyboard } from "../../components/keyboard";
 import { Word } from "../../components/word";
 
+// TODO 1: we need to implement writing with our custom keyboard
+// TODO 2: we need to implement logic to check words and letters (with game rules)
+// TODO 3: I HAVE TO FIX DESIGN OF THE WORDS AND INPUTS, ASLO IMPLEMENT (FIX) AUTOFOCUS
+
 const WordlePage = () => {
   const [wordStates, setWordStates] = useState(
     Array(6).fill("").map(() => ({ guessedWord: Array(6).fill("") }))
