@@ -1,15 +1,39 @@
-//unda dawero type propsebistvis, unda iyos dinamiuri
-
 interface KeyboardButtonProps {
   value: string;
   shift: boolean;
   setShift: React.Dispatch<React.SetStateAction<boolean>>;
+  wordStates: { guessedWord: any[] }[];
+  setWordStates: React.Dispatch<
+    React.SetStateAction<
+      {
+        guessedWord: any[];
+      }[]
+    >
+  >;
 }
 
-export const KeyboardButton: React.FC<KeyboardButtonProps> = (props) => {
-  const { value, shift, setShift } = props;
+export const KeyboardButton: React.FC<KeyboardButtonProps> = ({
+  value,
+  shift,
+  setShift,
+  wordStates,
+  setWordStates,
+}) => {
   const handleClick = () => {
-    if (value === "shift") setShift(!shift);
+    switch (value) {
+      case "shift":
+        setShift(!shift);
+        break;
+      case "del":
+        console.log("delete");
+        break;
+      case "enter":
+        console.log("enter");
+        break;
+      default:
+        console.log(value);
+        break;
+    }
   };
 
   return (

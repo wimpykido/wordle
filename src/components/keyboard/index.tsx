@@ -1,9 +1,19 @@
-//KeyboardButton componentis sashualebit keyboardi
 import { useState } from "react";
 import { KeyboardButton } from "../keyboard-button";
 import keys from "./keys";
 
-export const Keyboard = () => {
+interface KeyboardProps {
+  wordStates: { guessedWord: any[] }[];
+  setWordStates: React.Dispatch<
+    React.SetStateAction<
+      {
+        guessedWord: any[];
+      }[]
+    >
+  >;
+}
+
+export const Keyboard = ({ wordStates, setWordStates }: KeyboardProps) => {
   const [shift, setShift] = useState<boolean>(false);
   const shiftValue = (value: string) => {
     switch (value) {
@@ -27,13 +37,15 @@ export const Keyboard = () => {
   };
 
   return (
-    <div className="grid grid-rows-3 grid-cols-10 max-w-[38rem] m-1 gap-1 sm:gap-2">
+    <div className="grid grid-rows-3 grid-cols-10 max-w-[38rem] gap-1 sm:gap-2">
       {keys.map((value, i) => (
         <KeyboardButton
           key={i}
           value={shift ? shiftValue(value) : value}
           shift={shift}
           setShift={setShift}
+          wordStates={wordStates}
+          setWordStates={setWordStates}
         />
       ))}
     </div>
