@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Keyboard } from "../../components/keyboard";
 import { Word } from "../../components/word";
 
@@ -8,38 +8,46 @@ import { Word } from "../../components/word";
 
 const WordlePage = () => {
   const [wordStates, setWordStates] = useState(
-    Array(6).fill("").map(() => ({ guessedWord: Array(6).fill("") }))
+    Array(6)
+      .fill("")
+      .map(() => ({ guessedWord: Array(6).fill("") }))
   );
-  const [selectedInput, setSelectedInput] = useState<number>(0);
-  const handleUserInput = (index: number, input: string, moveNext: () => void) => {
-    setWordStates((prevWordStates) => {
-      const updatedStates = [...prevWordStates];
-      updatedStates[index].guessedWord[selectedInput] = input;
-      return updatedStates;
-    });
-    moveNext();
-  };
-  console.log(wordStates)
+  const [rowIndex, setRowIndex] = useState(0);
+  const [letterIndex, setLetterIndex] = useState(0);
+
+  useEffect(() => {
+    const handleKeyPress = (e: any) => {
+      const key = e.key.toLowerCase();
+      if (/^[ა-ჰ]$/.test(key)) {
+        const updatedWordStates = [...wordStates];
+        updatedWordStates[rowIndex].guessedWord[letterIndex] = key;
+        setWordStates(updatedWordStates);
+        setLetterIndex((prevIndex) => (prevIndex + 1) % 6);
+      }
+      //enter da backspace shemtxvevebi
+      if (key === "enter") {
+      }
+      console.log(key);
+    };
+    window.addEventListener("keypress", handleKeyPress);
+    return () => {
+      window.removeEventListener("keypress", handleKeyPress);
+    };
+  }, [wordStates]);
+
+  console.log(wordStates);
   return (
-    <div className="grid items-center justify-center">
+    <div className="grid items-center justify-center gap-6 m-6">
       <div className="grid gap-2">
         {wordStates.map((wordState, index) => (
           <Word
             key={index}
             secretWord={"კარადა".split("")}
             word={wordState.guessedWord}
-            onUserInput={(input) => {
-              handleUserInput(index, input, () => {
-                // Move to the next input if not at the end
-                if (selectedInput < wordState.guessedWord.length - 1) {
-                  setSelectedInput((prevSelectedInput) => prevSelectedInput + 1);
-                }
-              });
-            }}
           />
         ))}
       </div>
-      <Keyboard />
+      <Keyboard wordStates={wordStates} setWordStates={setWordStates} />
     </div>
   );
 };
