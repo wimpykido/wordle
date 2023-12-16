@@ -18,20 +18,39 @@ const WordlePage = () => {
   useEffect(() => {
     const handleKeyPress = (e: any) => {
       const key = e.key.toLowerCase();
+      const currentRow = wordStates[rowIndex];
+
+      // Block backspace when the current word is empty
+      if (
+        key === "backspace" &&
+        currentRow.guessedWord.every((letter) => letter === "")
+      ) {
+        return;
+      }
       if (/^[ა-ჰ]$/.test(key)) {
         const updatedWordStates = [...wordStates];
         updatedWordStates[rowIndex].guessedWord[letterIndex] = key;
         setWordStates(updatedWordStates);
         setLetterIndex((prevIndex) => (prevIndex + 1) % 6);
+        console.log(letterIndex);
       }
       //enter da backspace shemtxvevebi
       if (key === "enter") {
+        //unda shemowmdes sityda
+      } else if (key === "backspace") {
+        //needs testing, does not work correctly in every case
+        console.log("წაშლა", letterIndex);
+        const updatedWordStates = [...wordStates];
+        const newLetterIndex = (letterIndex - 1 + 6) % 6;
+        updatedWordStates[rowIndex].guessedWord[newLetterIndex] = "";
+        setLetterIndex(newLetterIndex);
+        setWordStates(updatedWordStates);
       }
       console.log(key);
     };
-    window.addEventListener("keypress", handleKeyPress);
+    window.addEventListener("keydown", handleKeyPress);
     return () => {
-      window.removeEventListener("keypress", handleKeyPress);
+      window.removeEventListener("keydown", handleKeyPress);
     };
   }, [wordStates]);
 
