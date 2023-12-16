@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
 import { Keyboard } from "../../components/keyboard";
 import { Word } from "../../components/word";
-
-// TODO 1: we need to implement writing with our custom keyboard
-// TODO 2: we need to implement logic to check words and letters (with game rules)
-// TODO 3: I HAVE TO FIX DESIGN OF THE WORDS AND INPUTS, ASLO IMPLEMENT (FIX) AUTOFOCUS
+import { checkWord } from "../../components/gameRules";
 
 const WordlePage = () => {
   const [wordStates, setWordStates] = useState(
@@ -14,6 +11,11 @@ const WordlePage = () => {
   );
   const [rowIndex, setRowIndex] = useState(0);
   const [letterIndex, setLetterIndex] = useState(0);
+  const [correctLettersAndPositions, setCorrectLettersAndPositions] = useState<
+    Array<number>
+  >([]);
+  const [correctLettersInWrongPositions, setCorrectLettersInWrongPositions] =
+    useState<Array<number>>([]);
 
   useEffect(() => {
     const handleKeyPress = (e: any) => {
@@ -27,6 +29,11 @@ const WordlePage = () => {
       ) {
         return;
       }
+      // Block Enter if the current row's word is not complete
+      if (key === "enter" && currentRow.guessedWord.includes("")) {
+        e.preventDefault();
+        return;
+      }
       if (/^[ა-ჰ]$/.test(key)) {
         const updatedWordStates = [...wordStates];
         updatedWordStates[rowIndex].guessedWord[letterIndex] = key;
@@ -36,7 +43,7 @@ const WordlePage = () => {
       }
       //enter da backspace shemtxvevebi
       if (key === "enter") {
-        //unda shemowmdes sityda
+        checkCurrentRow();
       } else if (key === "backspace") {
         //needs testing, does not work correctly in every case
         console.log("წაშლა", letterIndex);
@@ -54,7 +61,10 @@ const WordlePage = () => {
     };
   }, [wordStates]);
 
-  console.log(wordStates);
+  const checkCurrentRow = () => {
+    //after writting checkWord function
+  };
+
   return (
     <div className="grid items-center justify-center gap-6 m-6">
       <div className="grid gap-2">
@@ -63,6 +73,8 @@ const WordlePage = () => {
             key={index}
             secretWord={"კარადა".split("")}
             word={wordState.guessedWord}
+            correctLettersInWrongPositions={undefined}
+            correctLettersAndPositions={undefined}
           />
         ))}
       </div>
