@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Keyboard } from "../../components/keyboard";
 import { Word } from "../../components/word";
 import { checkWord } from "../../components/gameRules";
+import { getRandomWord } from "../../components/gameRules/words";
 
 const WordlePage = () => {
   const [wordStates, setWordStates] = useState(
@@ -9,12 +10,13 @@ const WordlePage = () => {
       .fill("")
       .map(() => ({ guessedWord: Array(6).fill("") }))
   );
+  const [secretWord, setSecretWord] = useState<Array<string>>(getRandomWord().split(""));
   const [rowIndex, setRowIndex] = useState(0);
   const [letterIndex, setLetterIndex] = useState(0);
-  const [correctLettersAndPositions, setCorrectLettersAndPositions] = useState<
+  const [correctPositions, setCorrectPositions] = useState<
     Array<number>
   >([]);
-  const [correctLettersInWrongPositions, setCorrectLettersInWrongPositions] =
+  const [wrongPositionsOfCorrectLetters, setWrongPositionsOfCorrectLetters] =
     useState<Array<number>>([]);
 
   useEffect(() => {
@@ -62,7 +64,11 @@ const WordlePage = () => {
   }, [wordStates]);
 
   const checkCurrentRow = () => {
-    //after writting checkWord function
+    const currentRow = wordStates[rowIndex].guessedWord;
+    const result = checkWord(currentRow, secretWord);
+    setCorrectPositions(result.correctPositions);
+    setWrongPositionsOfCorrectLetters(result.wrongPositionsOfCorrectLetters);
+    console.log(result);
   };
 
   return (
@@ -71,10 +77,10 @@ const WordlePage = () => {
         {wordStates.map((wordState, index) => (
           <Word
             key={index}
-            secretWord={"კარადა".split("")}
+            secretWord={secretWord}
             word={wordState.guessedWord}
-            correctLettersInWrongPositions={undefined}
-            correctLettersAndPositions={undefined}
+            wrongPositionsOfCorrectLetters={wrongPositionsOfCorrectLetters}
+            correctPositions={correctPositions}
           />
         ))}
       </div>
