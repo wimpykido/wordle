@@ -1,12 +1,14 @@
+import { Dispatch, SetStateAction } from "react";
+
 interface KeyboardButtonProps {
   value: string;
   shift: boolean;
-  setShift: React.Dispatch<React.SetStateAction<boolean>>;
+  setShift: Dispatch<SetStateAction<boolean>>;
   wordStates: { guessedWord: any[] }[];
-  setWordStates: React.Dispatch<
-    React.SetStateAction<
+  setWordStates: Dispatch<
+    SetStateAction<
       {
-        guessedWord: any[];
+        guessedWord: Array<String>;
       }[]
     >
   >;
