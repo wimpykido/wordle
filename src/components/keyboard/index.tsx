@@ -11,9 +11,20 @@ interface KeyboardProps {
       }[]
     >
   >;
+  rowIndex: number;
+  setRowIndex: React.Dispatch<React.SetStateAction<number>>;
+  letterIndex: number;
+  setLetterIndex: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export const Keyboard = ({ wordStates, setWordStates }: KeyboardProps) => {
+export const Keyboard = ({
+  wordStates,
+  setWordStates,
+  rowIndex,
+  setRowIndex,
+  letterIndex,
+  setLetterIndex,
+}: KeyboardProps) => {
   const [shift, setShift] = useState<boolean>(false);
   const shiftValue = (value: string) => {
     switch (value) {
@@ -37,7 +48,7 @@ export const Keyboard = ({ wordStates, setWordStates }: KeyboardProps) => {
   };
 
   return (
-    <div className="grid grid-rows-3 grid-cols-10 max-w-[38rem] gap-1 sm:gap-2">
+    <div className="grid grid-rows-3 grid-cols-10 gap-1 sm:gap-2">
       {keys.map((value, i) => (
         <KeyboardButton
           key={i}
@@ -46,6 +57,10 @@ export const Keyboard = ({ wordStates, setWordStates }: KeyboardProps) => {
           setShift={setShift}
           wordStates={wordStates}
           setWordStates={setWordStates}
+          rowIndex={rowIndex}
+          setRowIndex={setRowIndex}
+          letterIndex={letterIndex}
+          setLetterIndex={setLetterIndex}
         />
       ))}
     </div>
