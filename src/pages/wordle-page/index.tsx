@@ -10,12 +10,12 @@ const WordlePage = () => {
       .fill("")
       .map(() => ({ guessedWord: Array(6).fill("") }))
   );
-  const [secretWord, setSecretWord] = useState<Array<string>>(getRandomWord().split(""));
+  const [secretWord, setSecretWord] = useState<Array<string>>(
+    getRandomWord().split("")
+  );
   const [rowIndex, setRowIndex] = useState(0);
   const [letterIndex, setLetterIndex] = useState(0);
-  const [correctPositions, setCorrectPositions] = useState<
-    Array<number>
-  >([]);
+  const [correctPositions, setCorrectPositions] = useState<Array<number>>([]);
   const [wrongPositionsOfCorrectLetters, setWrongPositionsOfCorrectLetters] =
     useState<Array<number>>([]);
 
@@ -84,7 +84,14 @@ const WordlePage = () => {
           />
         ))}
       </div>
-      <Keyboard wordStates={wordStates} setWordStates={setWordStates} />
+      <Keyboard
+        wordStates={wordStates}
+        setWordStates={setWordStates}
+        rowIndex={rowIndex}
+        setRowIndex={setRowIndex}
+        letterIndex={letterIndex}
+        setLetterIndex={setLetterIndex}
+      />
     </div>
   );
 };
