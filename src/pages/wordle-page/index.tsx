@@ -18,21 +18,26 @@ const WordlePage = () => {
   const [correctPositions, setCorrectPositions] = useState<Array<number>>([]);
   const [wrongPositionsOfCorrectLetters, setWrongPositionsOfCorrectLetters] =
     useState<Array<number>>([]);
+  const [checked, setChecked] = useState(false);
 
   useEffect(() => {
     const handleKeyPress = (e: any) => {
       const key = e.key.toLowerCase();
       const currentRow = wordStates[rowIndex];
 
-      // Block backspace when the current word is empty
       if (
         key === "backspace" &&
-        currentRow.guessedWord.every((letter) => letter === "")
+        (currentRow.guessedWord.every((letter) => letter === "") || checked)
       ) {
+        e.preventDefault();
         return;
       }
-      // Block Enter if the current row's word is not complete
-      if (key === "enter" && currentRow.guessedWord.includes("")) {
+      // Block Enter if the current row's word is not complete or already is checked
+      if (key === "enter" && (currentRow.guessedWord.includes("") || checked)) {
+        e.preventDefault();
+        return;
+      }
+      if (checked) {
         e.preventDefault();
         return;
       }
@@ -46,6 +51,11 @@ const WordlePage = () => {
       //enter da backspace shemtxvevebi
       if (key === "enter") {
         checkCurrentRow();
+        setChecked(true);
+        // if (rowIndex < wordStates.length - 1) {
+        //   setRowIndex((prevIndex) => prevIndex + 1);
+        //   setLetterIndex(0);
+        // }
       } else if (key === "backspace") {
         //needs testing, does not work correctly in every case
         console.log("წაშლა", letterIndex);
@@ -61,7 +71,7 @@ const WordlePage = () => {
     return () => {
       window.removeEventListener("keydown", handleKeyPress);
     };
-  }, [wordStates]);
+  }, [checked, letterIndex, rowIndex, wordStates]);
 
   const checkCurrentRow = () => {
     const currentRow = wordStates[rowIndex].guessedWord;
@@ -81,6 +91,7 @@ const WordlePage = () => {
             word={wordState.guessedWord}
             wrongPositionsOfCorrectLetters={wrongPositionsOfCorrectLetters}
             correctPositions={correctPositions}
+            isCurrentRowWord={checked && rowIndex === index}
           />
         ))}
       </div>
