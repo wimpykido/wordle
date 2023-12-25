@@ -1,6 +1,6 @@
 type LetterInputProps = {
   letter?: string;
-  color?: string;
+  color?: string | null;
 };
 
 export const LetterInput = ({ letter, color }: LetterInputProps) => {
