@@ -3,12 +3,12 @@ import { Keyboard } from "../../components/keyboard";
 import { Word } from "../../components/word";
 import { getRandomWord } from "../../components/gameRules/words";
 
-// კაი იქნება ამ ტიპს თუ გამოვიყენებთ any-s ნაცვლად 
+// კაი იქნება ამ ტიპს თუ გამოვიყენებთ any-s ნაცვლად
 type Word = {
-  guessedWord: Array<any>
-  colors: Array<any>
+  guessedWord: Array<any>;
+  colors: Array<any>;
   checked: boolean;
-}
+};
 
 const WordlePage = () => {
   const [wordStates, setWordStates] = useState(
@@ -40,16 +40,14 @@ const WordlePage = () => {
   useEffect(() => {
     const handleKeyPress = (e: any) => {
       const key = e.key.toLowerCase();
-
-      if (/^[ა-ჰ]$/.test(key)) {
+      if (/^[ა-ჰ]$/.test(key) && letterIndex < 6) {
         const updatedWordStates = [...wordStates];
         updatedWordStates[rowIndex].guessedWord[letterIndex] = key;
         setWordStates(updatedWordStates);
-        setLetterIndex((prevIndex) => (prevIndex + 1) % 6);
+        setLetterIndex((prevIndex) => prevIndex + 1);
         console.log(letterIndex);
       }
-      //enter da backspace shemtxvevebi
-      if (key === "enter") {
+      if (key === "enter" && letterIndex === 6) {
         setRowIndex(rowIndex + 1);
         setLetterIndex(0);
         const colors = getLetterBackgroundColor(
@@ -65,12 +63,12 @@ const WordlePage = () => {
 
         console.log("backgrounds:", colors);
         console.log("ეს", rowIndex);
-      } else if (key === "backspace") {
+      }
+      if (key === "backspace" && letterIndex > 0) {
         console.log("წაშლა", letterIndex);
         const updatedWordStates = [...wordStates];
-        const newLetterIndex = (letterIndex - 1 + 6) % 6;
-        updatedWordStates[rowIndex].guessedWord[newLetterIndex] = "";
-        setLetterIndex(newLetterIndex);
+        updatedWordStates[rowIndex].guessedWord[letterIndex - 1] = "";
+        setLetterIndex((prevIndex) => prevIndex - 1);
         setWordStates(updatedWordStates);
       }
       console.log(key);
@@ -102,6 +100,7 @@ const WordlePage = () => {
         setRowIndex={setRowIndex}
         letterIndex={letterIndex}
         setLetterIndex={setLetterIndex}
+        secretWord={secretWord}
       />
     </div>
   );
