@@ -1,46 +1,46 @@
 import { useEffect, useState } from "react";
 import { Keyboard } from "../../components/keyboard";
 import { Word } from "../../components/word";
-import { checkWord } from "../../components/gameRules";
 import { getRandomWord } from "../../components/gameRules/words";
+
+// კაი იქნება ამ ტიპს თუ გამოვიყენებთ any-s ნაცვლად 
+type Word = {
+  guessedWord: Array<any>
+  colors: Array<any>
+  checked: boolean;
+}
 
 const WordlePage = () => {
   const [wordStates, setWordStates] = useState(
     Array(6)
       .fill("")
-      .map(() => ({ guessedWord: Array(6).fill("") }))
+      .map(() => ({
+        guessedWord: Array(6).fill(""),
+        colors: Array(6).fill(""),
+      }))
   );
-  const [secretWord, setSecretWord] = useState<Array<string>>(
-    getRandomWord().split("")
-  );
+  const [secretWord] = useState<Array<string>>(getRandomWord().split(""));
   const [rowIndex, setRowIndex] = useState(0);
   const [letterIndex, setLetterIndex] = useState(0);
-  const [correctPositions, setCorrectPositions] = useState<Array<number>>([]);
-  const [wrongPositionsOfCorrectLetters, setWrongPositionsOfCorrectLetters] =
-    useState<Array<number>>([]);
-  const [checked, setChecked] = useState(false);
+
+  const getLetterBackgroundColor = (arr: Array<any>) => {
+    const backgroundColors: Array<string> = [];
+    arr.forEach((letter, index) => {
+      if (secretWord[index] === letter) {
+        backgroundColors.push("bg-custom-green");
+      } else if (secretWord.includes(letter)) {
+        backgroundColors.push("bg-custom-yellow");
+      } else {
+        backgroundColors.push("bg-custom-dark");
+      }
+    });
+    return backgroundColors;
+  };
 
   useEffect(() => {
     const handleKeyPress = (e: any) => {
       const key = e.key.toLowerCase();
-      const currentRow = wordStates[rowIndex];
 
-      if (
-        key === "backspace" &&
-        (currentRow.guessedWord.every((letter) => letter === "") || checked)
-      ) {
-        e.preventDefault();
-        return;
-      }
-      // Block Enter if the current row's word is not complete or already is checked
-      if (key === "enter" && (currentRow.guessedWord.includes("") || checked)) {
-        e.preventDefault();
-        return;
-      }
-      if (checked) {
-        e.preventDefault();
-        return;
-      }
       if (/^[ა-ჰ]$/.test(key)) {
         const updatedWordStates = [...wordStates];
         updatedWordStates[rowIndex].guessedWord[letterIndex] = key;
@@ -50,14 +50,22 @@ const WordlePage = () => {
       }
       //enter da backspace shemtxvevebi
       if (key === "enter") {
-        checkCurrentRow();
-        setChecked(true);
-        // if (rowIndex < wordStates.length - 1) {
-        //   setRowIndex((prevIndex) => prevIndex + 1);
-        //   setLetterIndex(0);
-        // }
+        setRowIndex(rowIndex + 1);
+        setLetterIndex(0);
+        const colors = getLetterBackgroundColor(
+          wordStates[rowIndex].guessedWord
+        );
+
+        // Update colors for the current word
+        setWordStates((prevWordStates) =>
+          prevWordStates.map((wordState, index) =>
+            index === rowIndex ? { ...wordState, colors: colors } : wordState
+          )
+        );
+
+        console.log("backgrounds:", colors);
+        console.log("ეს", rowIndex);
       } else if (key === "backspace") {
-        //needs testing, does not work correctly in every case
         console.log("წაშლა", letterIndex);
         const updatedWordStates = [...wordStates];
         const newLetterIndex = (letterIndex - 1 + 6) % 6;
@@ -71,15 +79,9 @@ const WordlePage = () => {
     return () => {
       window.removeEventListener("keydown", handleKeyPress);
     };
-  }, [checked, letterIndex, rowIndex, wordStates]);
+  }, [letterIndex, rowIndex, wordStates]);
 
-  const checkCurrentRow = () => {
-    const currentRow = wordStates[rowIndex].guessedWord;
-    const result = checkWord(currentRow, secretWord);
-    setCorrectPositions(result.correctPositions);
-    setWrongPositionsOfCorrectLetters(result.wrongPositionsOfCorrectLetters);
-    console.log(result);
-  };
+  console.log(wordStates);
 
   return (
     <div className="grid items-center justify-center gap-6 m-6">
@@ -89,9 +91,7 @@ const WordlePage = () => {
             key={index}
             secretWord={secretWord}
             word={wordState.guessedWord}
-            wrongPositionsOfCorrectLetters={wrongPositionsOfCorrectLetters}
-            correctPositions={correctPositions}
-            isCurrentRowWord={checked && rowIndex === index}
+            color={wordState.colors}
           />
         ))}
       </div>

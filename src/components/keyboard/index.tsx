@@ -1,16 +1,10 @@
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { KeyboardButton } from "../keyboard-button";
 import keys from "./keys";
 
 interface KeyboardProps {
   wordStates: { guessedWord: any[] }[];
-  setWordStates: React.Dispatch<
-    React.SetStateAction<
-      {
-        guessedWord: any[];
-      }[]
-    >
-  >;
+  setWordStates: Dispatch<SetStateAction<{ guessedWord: any[]; colors: any[]; }[]>>;
   rowIndex: number;
   setRowIndex: React.Dispatch<React.SetStateAction<number>>;
   letterIndex: number;
