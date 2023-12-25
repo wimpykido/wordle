@@ -1,17 +1,14 @@
 import ShiftIcon from "../../assets/up.png";
 import DeleteIcon from "../../assets/delete.png";
 import EnterIcon from "../../assets/enter.png";
+import { Dispatch, SetStateAction } from "react";
 interface KeyboardButtonProps {
   value: string;
   shift: boolean;
   setShift: React.Dispatch<React.SetStateAction<boolean>>;
   wordStates: { guessedWord: any[] }[];
-  setWordStates: React.Dispatch<
-    React.SetStateAction<
-      {
-        guessedWord: any[];
-      }[]
-    >
+  setWordStates: Dispatch<
+    SetStateAction<{ guessedWord: any[]; colors: any[] }[]>
   >;
   rowIndex: number;
   setRowIndex: React.Dispatch<React.SetStateAction<number>>;
@@ -36,8 +33,8 @@ export const KeyboardButton = ({
         setShift(!shift);
         break;
       case "del":
-        setWordStates(() => {
-          const updatedWordStates = [...wordStates];
+        setWordStates((prevWordStates) => {
+          const updatedWordStates = [...prevWordStates];
           updatedWordStates[rowIndex].guessedWord[letterIndex - 1] = "";
           if (letterIndex > 0) {
             setLetterIndex((prevIndex) => prevIndex - 1);
@@ -47,13 +44,13 @@ export const KeyboardButton = ({
         break;
       case "Enter":
         if (letterIndex === 6) {
-          setLetterIndex(0);
           setRowIndex((prevIndex) => prevIndex + 1);
+          setLetterIndex(0);
         }
         break;
       default:
-        setWordStates(() => {
-          const updatedWordStates = [...wordStates];
+        setWordStates((prevWordStates) => {
+          const updatedWordStates = [...prevWordStates];
           updatedWordStates[rowIndex].guessedWord[letterIndex] = value;
           if (letterIndex < 6) {
             setLetterIndex((prevIndex) => prevIndex + 1);
