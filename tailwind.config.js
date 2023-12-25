@@ -2,7 +2,8 @@
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
-    colors: {
+    colors: {},
+    extend: {
       custom: {
         light: "#dce1ed",
         dark: "#a4aec4",
@@ -14,7 +15,6 @@ module.exports = {
         hover: "#c4cbdd",
       },
     },
-    extend: {},
   },
   plugins: [],
 };
