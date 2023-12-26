@@ -25,10 +25,15 @@ const WordlePage = () => {
 
   const getLetterBackgroundColor = (arr: Array<any>) => {
     const backgroundColors: Array<string> = [];
+    const correctLetters: Array<string> = [];
     arr.forEach((letter, index) => {
       if (secretWord[index] === letter) {
         backgroundColors.push("bg-custom-green");
-      } else if (secretWord.includes(letter)) {
+        correctLetters.push(letter);
+      } else if (
+        secretWord.includes(letter) &&
+        !correctLetters.includes(letter)
+      ) {
         backgroundColors.push("bg-custom-yellow");
       } else {
         backgroundColors.push("bg-custom-dark");
