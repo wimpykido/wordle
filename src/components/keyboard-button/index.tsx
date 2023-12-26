@@ -6,7 +6,10 @@ interface KeyboardButtonProps {
   value: string;
   shift: boolean;
   setShift: React.Dispatch<React.SetStateAction<boolean>>;
-  wordStates: { guessedWord: any[] }[];
+  wordStates: {
+    guessedWord: any[];
+    colors: any[];
+  }[];
   setWordStates: Dispatch<
     SetStateAction<{ guessedWord: any[]; colors: any[] }[]>
   >;
@@ -14,6 +17,7 @@ interface KeyboardButtonProps {
   setRowIndex: React.Dispatch<React.SetStateAction<number>>;
   letterIndex: number;
   setLetterIndex: React.Dispatch<React.SetStateAction<number>>;
+  secretWord: string[];
 }
 
 export const KeyboardButton = ({
@@ -26,38 +30,61 @@ export const KeyboardButton = ({
   setRowIndex,
   letterIndex,
   setLetterIndex,
+  secretWord,
 }: KeyboardButtonProps) => {
+  const getLetterBackgroundColor = (arr: Array<any>) => {
+    const backgroundColors: Array<string> = [];
+    arr.forEach((letter, index) => {
+      if (secretWord[index] === letter) {
+        backgroundColors.push("bg-custom-green");
+      } else if (secretWord.includes(letter)) {
+        backgroundColors.push("bg-custom-yellow");
+      } else {
+        backgroundColors.push("bg-custom-dark");
+      }
+    });
+    return backgroundColors;
+  };
+
   const handleClick = () => {
     switch (value) {
       case "shift":
         setShift(!shift);
         break;
       case "del":
-        setWordStates((prevWordStates) => {
-          const updatedWordStates = [...prevWordStates];
-          updatedWordStates[rowIndex].guessedWord[letterIndex - 1] = "";
-          if (letterIndex > 0) {
+        if (letterIndex > 0) {
+          setWordStates((prevWordStates) => {
+            const updatedWordStates = [...prevWordStates];
+            updatedWordStates[rowIndex].guessedWord[letterIndex - 1] = "";
             setLetterIndex((prevIndex) => prevIndex - 1);
-          }
-          return updatedWordStates;
-        });
+            return updatedWordStates;
+          });
+        }
         break;
       case "Enter":
         if (letterIndex === 6) {
           setRowIndex((prevIndex) => prevIndex + 1);
           setLetterIndex(0);
+          const colors = getLetterBackgroundColor(
+            wordStates[rowIndex].guessedWord
+          );
+          setWordStates((prevWordStates) =>
+            prevWordStates.map((wordState, index) =>
+              index === rowIndex ? { ...wordState, colors: colors } : wordState
+            )
+          );
         }
         break;
       default:
-        setWordStates((prevWordStates) => {
-          const updatedWordStates = [...prevWordStates];
-          updatedWordStates[rowIndex].guessedWord[letterIndex] = value;
-          if (letterIndex < 6) {
+        if (letterIndex < 6) {
+          setWordStates((prevWordStates) => {
+            const updatedWordStates = [...prevWordStates];
+            updatedWordStates[rowIndex].guessedWord[letterIndex] = value;
             setLetterIndex((prevIndex) => prevIndex + 1);
-          }
-          return updatedWordStates;
-        });
-        setShift(false);
+            return updatedWordStates;
+          });
+          setShift(false);
+        }
         break;
     }
   };

@@ -3,12 +3,18 @@ import { KeyboardButton } from "../keyboard-button";
 import keys from "./keys";
 
 interface KeyboardProps {
-  wordStates: { guessedWord: any[] }[];
-  setWordStates: Dispatch<SetStateAction<{ guessedWord: any[]; colors: any[]; }[]>>;
+  wordStates: {
+    guessedWord: any[];
+    colors: any[];
+  }[];
+  setWordStates: Dispatch<
+    SetStateAction<{ guessedWord: any[]; colors: any[] }[]>
+  >;
   rowIndex: number;
   setRowIndex: React.Dispatch<React.SetStateAction<number>>;
   letterIndex: number;
   setLetterIndex: React.Dispatch<React.SetStateAction<number>>;
+  secretWord: string[];
 }
 
 export const Keyboard = ({
@@ -18,6 +24,7 @@ export const Keyboard = ({
   setRowIndex,
   letterIndex,
   setLetterIndex,
+  secretWord,
 }: KeyboardProps) => {
   const [shift, setShift] = useState<boolean>(false);
   const shiftValue = (value: string) => {
@@ -55,6 +62,7 @@ export const Keyboard = ({
           setRowIndex={setRowIndex}
           letterIndex={letterIndex}
           setLetterIndex={setLetterIndex}
+          secretWord={secretWord}
         />
       ))}
     </div>
