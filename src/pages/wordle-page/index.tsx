@@ -2,12 +2,18 @@ import { useEffect, useState } from "react";
 import { Keyboard } from "../../components/keyboard";
 import { Word } from "../../components/word";
 import { getRandomWord } from "../../components/gameRules/words";
+import keys from "../../components/keyboard/keys";
 
 // კაი იქნება ამ ტიპს თუ გამოვიყენებთ any-s ნაცვლად
 type Word = {
   guessedWord: Array<any>;
   colors: Array<any>;
   checked: boolean;
+};
+
+export type letterType = {
+  letter: string;
+  color: string;
 };
 
 const WordlePage = () => {
@@ -22,6 +28,7 @@ const WordlePage = () => {
   const [secretWord] = useState<Array<string>>(getRandomWord().split(""));
   const [rowIndex, setRowIndex] = useState(0);
   const [letterIndex, setLetterIndex] = useState(0);
+  const [letters, setLetters] = useState<Array<letterType>>(keys);
 
   const getLetterBackgroundColor = (arr: Array<any>) => {
     const backgroundColors: Array<string> = [];
@@ -30,12 +37,40 @@ const WordlePage = () => {
       if (secretWord[index] === letter) {
         backgroundColors.push("bg-custom-green");
         correctLetters.push(letter);
+        setLetters((prev) =>
+          prev.map((obj) =>
+            obj.letter === letter ? { ...obj, color: "bg-custom-green" } : obj
+          )
+        );
       } else if (
         secretWord.includes(letter) &&
         !correctLetters.includes(letter)
       ) {
         backgroundColors.push("bg-custom-yellow");
+        setLetters((prev) =>
+          prev.map((obj) =>
+            obj.letter === letter && obj.color !== "bg-custom-green"
+              ? { ...obj, color: "bg-custom-yellow" }
+              : obj
+          )
+        );
       } else {
+        setLetters((prev) =>
+          prev.map((obj) => {
+            const isCorrectLetter = obj.letter === letter;
+            const isCorrectColor =
+              obj.color === "bg-custom-yellow" ||
+              obj.color === "bg-custom-green";
+            const shouldUpdateColor =
+              isCorrectLetter &&
+              !correctLetters.includes(letter) &&
+              !isCorrectColor;
+
+            return shouldUpdateColor
+              ? { ...obj, color: "bg-custom-dark" }
+              : obj;
+          })
+        );
         backgroundColors.push("bg-custom-dark");
       }
     });
@@ -99,6 +134,7 @@ const WordlePage = () => {
         ))}
       </div>
       <Keyboard
+        letters={letters}
         wordStates={wordStates}
         setWordStates={setWordStates}
         rowIndex={rowIndex}

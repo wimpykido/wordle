@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import { KeyboardButton } from "../keyboard-button";
-import keys from "./keys";
+import { letterType } from "../../pages/wordle-page";
 
 interface KeyboardProps {
   wordStates: {
@@ -15,6 +15,7 @@ interface KeyboardProps {
   letterIndex: number;
   setLetterIndex: React.Dispatch<React.SetStateAction<number>>;
   secretWord: string[];
+  letters: Array<letterType>;
 }
 
 export const Keyboard = ({
@@ -25,6 +26,7 @@ export const Keyboard = ({
   letterIndex,
   setLetterIndex,
   secretWord,
+  letters,
 }: KeyboardProps) => {
   const [shift, setShift] = useState<boolean>(false);
   const shiftValue = (value: string) => {
@@ -47,13 +49,14 @@ export const Keyboard = ({
         return value;
     }
   };
-
+  console.log(letters);
   return (
     <div className="grid grid-rows-3 grid-cols-10 gap-1 sm:gap-2">
-      {keys.map((value, i) => (
+      {letters.map((value, i) => (
         <KeyboardButton
+          color={value.color}
           key={i}
-          value={shift ? shiftValue(value) : value}
+          value={shift ? shiftValue(value.letter) : value.letter}
           shift={shift}
           setShift={setShift}
           wordStates={wordStates}
