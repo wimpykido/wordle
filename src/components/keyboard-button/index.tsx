@@ -18,6 +18,7 @@ interface KeyboardButtonProps {
   letterIndex: number;
   setLetterIndex: React.Dispatch<React.SetStateAction<number>>;
   secretWord: string[];
+  color: string;
 }
 
 export const KeyboardButton = ({
@@ -31,6 +32,7 @@ export const KeyboardButton = ({
   letterIndex,
   setLetterIndex,
   secretWord,
+  color,
 }: KeyboardButtonProps) => {
   const getLetterBackgroundColor = (arr: Array<any>) => {
     const backgroundColors: Array<string> = [];
@@ -91,7 +93,7 @@ export const KeyboardButton = ({
 
   return (
     <button
-      className={`flex justify-center items-center bg-custom-light hover:bg-custom-hover text-custom-text text-sm font-semibold rounded-md outline-none py-2 transition-all sm:text-xl sm:py-2 sm:px-4
+      className={`${color} flex justify-center items-center hover:bg-custom-hover text-custom-text text-sm font-semibold rounded-md outline-none py-2 transition-all sm:text-xl sm:py-2 sm:px-4
       ${value === "Enter" && "col-span-2"}`}
       onClick={handleClick}
     >
