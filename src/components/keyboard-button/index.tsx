@@ -93,8 +93,9 @@ export const KeyboardButton = ({
 
   return (
     <button
-      className={`${color} flex justify-center items-center hover:bg-custom-hover text-custom-text text-sm font-semibold rounded-md outline-none py-2 transition-all sm:text-xl sm:py-2 sm:px-4
-      ${value === "Enter" && "col-span-2"}`}
+      className={`flex justify-center items-center text-custom-text text-sm font-custom rounded-md outline-none transition-all sm:text-xl py-1 sm:px-4
+       ${color} ${color === "bg-custom-light" && "hover:bg-custom-hover"}
+       ${value === "Enter" && "col-span-2"}`}
       onClick={handleClick}
     >
       {value === "shift" ? (
@@ -104,7 +105,7 @@ export const KeyboardButton = ({
       ) : value === "Enter" ? (
         <img src={EnterIcon} className="w-3 h-3 sm:w-5 sm:h-5" />
       ) : (
-        value
+        <p className="mt-2">{value}</p>
       )}
     </button>
   );

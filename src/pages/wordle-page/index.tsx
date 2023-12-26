@@ -3,6 +3,7 @@ import { Keyboard } from "../../components/keyboard";
 import { Word } from "../../components/word";
 import { getRandomWord } from "../../components/gameRules/words";
 import keys from "../../components/keyboard/keys";
+import { Navigation } from "../../components/navigation";
 
 // კაი იქნება ამ ტიპს თუ გამოვიყენებთ any-s ნაცვლად
 type Word = {
@@ -122,8 +123,9 @@ const WordlePage = () => {
   console.log(wordStates);
 
   return (
-    <div className="grid items-center justify-center gap-6 m-6">
-      <div className="grid gap-2">
+    <div className="grid items-center justify-center gap-6">
+      <Navigation />
+      <div className="grid">
         {wordStates.map((wordState, index) => (
           <Word
             key={index}
