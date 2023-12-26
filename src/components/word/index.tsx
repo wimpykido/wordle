@@ -13,7 +13,7 @@ export const Word = ({
 }: WordProps) => {
 
   return (
-    <div className="flex items-center justify-center gap-2">
+    <div className="flex items-center justify-center gap-1">
       {secretWord.map((_, index) => (
         <LetterInput
           letter={word && word[index]}
