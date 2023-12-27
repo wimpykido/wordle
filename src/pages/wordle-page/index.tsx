@@ -150,6 +150,7 @@ const WordlePage = () => {
           setLetterIndex={setLetterIndex}
           setIsGameOver={setIsGameOver}
           setMessage={setMessage}
+          setLetters={setLetters}
         />
       )}
       <Navigation setIsGameOver={setIsGameOver} setMessage={setMessage} />
