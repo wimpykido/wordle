@@ -6,6 +6,7 @@ import keys from "../../components/keyboard/keys";
 import { Navigation } from "../../components/navigation";
 import GameOver from "../../components/game-over";
 import { HowToPlay } from "../../components/how-to-play";
+import { Alert } from "../../components/alert";
 
 // კაი იქნება ამ ტიპს თუ გამოვიყენებთ any-s ნაცვლად
 type Word = {
@@ -155,6 +156,7 @@ const WordlePage = () => {
           setLetters={setLetters}
         />
       )}
+      <Alert />
       <Navigation
         setShowRules={setShowRules}
         setIsGameOver={setIsGameOver}
