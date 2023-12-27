@@ -2,13 +2,24 @@ import StatsIcon from "../../assets/stats.png";
 import SettingsIcon from "../../assets/settings.png";
 import HelpIcon from "../../assets/help.png";
 
-export const Navigation = () => {
+type NavigationProps = {
+  setIsGameOver: React.Dispatch<React.SetStateAction<boolean>>;
+  setMessage: React.Dispatch<React.SetStateAction<string>>;
+};
+
+export const Navigation = ({ setIsGameOver, setMessage }: NavigationProps) => {
+  const handleClick = () => {
+    setMessage("თქვენ დამარცხდით!");
+    setIsGameOver(true);
+  };
   return (
     <nav className="flex justify-between mt-2">
       <button
         className={`font-custom rounded-md outline-none text-custom-text hover:bg-custom-light transition-all sm:text-lg`}
       >
-        <p className="px-2 pt-1 sm:pt-[6px] sm:px-4">დანებება</p>
+        <p className="px-2 pt-1 sm:pt-[6px] sm:px-4" onClick={handleClick}>
+          დანებება
+        </p>
       </button>
       <div className="flex">
         <button
