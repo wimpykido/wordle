@@ -5,7 +5,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        custom: ['BPG Nino Mtavruli', 'sans-serif']
+        custom: ["BPG Nino Mtavruli", "sans-serif"],
       },
       colors: {
         custom: {
@@ -17,6 +17,10 @@ module.exports = {
           border: "#dee1e9",
           borderDark: "#a7adc0",
           hover: "#c4cbdd",
+          paragraph: "#2e3239",
+          div: "#e8ecfc",
+          lightGrey: "#edf0f5",
+          lightGreen: "#e6f3e6",
         },
       },
     },
