@@ -16,6 +16,8 @@ interface KeyboardProps {
   setLetterIndex: React.Dispatch<React.SetStateAction<number>>;
   secretWord: string[];
   letters: Array<letterType>;
+  setIsGameOver: React.Dispatch<React.SetStateAction<boolean>>;
+  setMessage: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const Keyboard = ({
@@ -27,6 +29,8 @@ export const Keyboard = ({
   setLetterIndex,
   secretWord,
   letters,
+  setIsGameOver,
+  setMessage,
 }: KeyboardProps) => {
   const [shift, setShift] = useState<boolean>(false);
   const shiftValue = (value: string) => {
@@ -66,6 +70,8 @@ export const Keyboard = ({
           letterIndex={letterIndex}
           setLetterIndex={setLetterIndex}
           secretWord={secretWord}
+          setIsGameOver={setIsGameOver}
+          setMessage={setMessage}
         />
       ))}
     </div>

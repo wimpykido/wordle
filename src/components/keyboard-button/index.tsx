@@ -19,6 +19,8 @@ interface KeyboardButtonProps {
   setLetterIndex: React.Dispatch<React.SetStateAction<number>>;
   secretWord: string[];
   color: string;
+  setIsGameOver: React.Dispatch<React.SetStateAction<boolean>>;
+  setMessage: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const KeyboardButton = ({
@@ -33,6 +35,8 @@ export const KeyboardButton = ({
   setLetterIndex,
   secretWord,
   color,
+  setIsGameOver,
+  setMessage,
 }: KeyboardButtonProps) => {
   const getLetterBackgroundColor = (arr: Array<any>) => {
     const backgroundColors: Array<string> = [];
@@ -65,8 +69,6 @@ export const KeyboardButton = ({
         break;
       case "Enter":
         if (letterIndex === 6) {
-          setRowIndex((prevIndex) => prevIndex + 1);
-          setLetterIndex(0);
           const colors = getLetterBackgroundColor(
             wordStates[rowIndex].guessedWord
           );
@@ -75,6 +77,23 @@ export const KeyboardButton = ({
               index === rowIndex ? { ...wordState, colors: colors } : wordState
             )
           );
+          if (
+            wordStates[rowIndex].guessedWord.join("") === secretWord.join("")
+          ) {
+            setIsGameOver(true);
+            setMessage("თქვენ გაიმარჯვეთ!");
+            return;
+          }
+          if (
+            wordStates[rowIndex].guessedWord.join("") !== secretWord.join("") &&
+            rowIndex === 5
+          ) {
+            setIsGameOver(true);
+            setMessage("თქვენ დამარცხდით!");
+            return;
+          }
+          setRowIndex((prevIndex) => prevIndex + 1);
+          setLetterIndex(0);
         }
         break;
       default:
@@ -93,8 +112,9 @@ export const KeyboardButton = ({
 
   return (
     <button
-      className={`${color} flex justify-center items-center hover:bg-custom-hover text-custom-text text-sm font-semibold rounded-md outline-none py-2 transition-all sm:text-xl sm:py-2 sm:px-4
-      ${value === "Enter" && "col-span-2"}`}
+      className={`flex justify-center items-center text-custom-text text-sm font-custom rounded-md outline-none transition-all sm:text-xl py-1 sm:px-4
+       ${color} ${color === "bg-custom-light" && "hover:bg-custom-hover"}
+       ${value === "Enter" && "col-span-2"}`}
       onClick={handleClick}
     >
       {value === "shift" ? (
@@ -104,7 +124,7 @@ export const KeyboardButton = ({
       ) : value === "Enter" ? (
         <img src={EnterIcon} className="w-3 h-3 sm:w-5 sm:h-5" />
       ) : (
-        value
+        <p className="mt-2">{value}</p>
       )}
     </button>
   );

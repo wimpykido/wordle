@@ -6,14 +6,9 @@ type WordProps = {
   color?: Array<string>;
 };
 
-export const Word = ({
-  secretWord,
-  word,
-  color
-}: WordProps) => {
-
+export const Word = ({ secretWord, word, color }: WordProps) => {
   return (
-    <div className="flex items-center justify-center gap-1">
+    <div className="flex items-center justify-center">
       {secretWord.map((_, index) => (
         <LetterInput
           letter={word && word[index]}
