@@ -1,44 +1,9 @@
-// let keys: string[];
-// // eslint-disable-next-line
-// export default keys = [
-//   "ქ",
-//   "წ",
-//   "ე",
-//   "რ",
-//   "ტ",
-//   "ყ",
-//   "უ",
-//   "ი",
-//   "ო",
-//   "პ",
-//   "ა",
-//   "ს",
-//   "დ",
-//   "ფ",
-//   "გ",
-//   "ჰ",
-//   "ჯ",
-//   "კ",
-//   "ლ",
-//   "del",
-//   "shift",
-//   "ზ",
-//   "ხ",
-//   "ც",
-//   "ვ",
-//   "ბ",
-//   "ნ",
-//   "მ",
-//   "Enter",
-// ];
 type letterType = {
   letter: string;
   color: string;
 };
 
 let keys: Array<letterType>;
-
-// ... (existing keys definition)
 
 const defaultColor = "bg-custom-light";
 

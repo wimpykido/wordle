@@ -1,4 +1,6 @@
+import { letterType } from "../../pages/wordle-page";
 import { getRandomWord } from "../gameRules/words";
+import keys from "../keyboard/keys";
 
 type GameOverProps = {
   message: string;
@@ -16,6 +18,7 @@ type GameOverProps = {
   setLetterIndex: React.Dispatch<React.SetStateAction<number>>;
   setIsGameOver: React.Dispatch<React.SetStateAction<boolean>>;
   setMessage: React.Dispatch<React.SetStateAction<string>>;
+  setLetters: React.Dispatch<React.SetStateAction<Array<letterType>>>;
 };
 
 const GameOver = ({
@@ -27,6 +30,7 @@ const GameOver = ({
   setLetterIndex,
   setIsGameOver,
   setMessage,
+  setLetters,
 }: GameOverProps) => {
   const handleClick = () => {
     setSecretWord(getRandomWord().split(""));
@@ -42,6 +46,7 @@ const GameOver = ({
     setLetterIndex(0);
     setIsGameOver(false);
     setMessage("");
+    setLetters(keys);
   };
   return (
     <div className="absolute flex justify-center items-center bg-custom-light bg-opacity-50 w-screen h-screen">

@@ -5,6 +5,8 @@ import { getRandomWord } from "../../components/gameRules/words";
 import keys from "../../components/keyboard/keys";
 import { Navigation } from "../../components/navigation";
 import GameOver from "../../components/game-over";
+import { HowToPlay } from "../../components/how-to-play";
+import { Alert } from "../../components/alert";
 
 // კაი იქნება ამ ტიპს თუ გამოვიყენებთ any-s ნაცვლად
 type Word = {
@@ -35,6 +37,7 @@ const WordlePage = () => {
   const [letters, setLetters] = useState<Array<letterType>>(keys);
   const [isGameOver, setIsGameOver] = useState(false);
   const [message, setMessage] = useState("");
+  const [showRules, setShowRules] = useState(false);
 
   const getLetterBackgroundColor = (arr: Array<any>) => {
     const backgroundColors: Array<string> = [];
@@ -150,31 +153,44 @@ const WordlePage = () => {
           setLetterIndex={setLetterIndex}
           setIsGameOver={setIsGameOver}
           setMessage={setMessage}
+          setLetters={setLetters}
         />
       )}
-      <Navigation setIsGameOver={setIsGameOver} setMessage={setMessage} />
-      <div className="grid">
-        {wordStates.map((wordState, index) => (
-          <Word
-            key={index}
-            secretWord={secretWord}
-            word={wordState.guessedWord}
-            color={wordState.colors}
-          />
-        ))}
-      </div>
-      <Keyboard
-        letters={letters}
-        wordStates={wordStates}
-        setWordStates={setWordStates}
-        rowIndex={rowIndex}
-        setRowIndex={setRowIndex}
-        letterIndex={letterIndex}
-        setLetterIndex={setLetterIndex}
-        secretWord={secretWord}
+      <Alert />
+      <Navigation
+        setShowRules={setShowRules}
         setIsGameOver={setIsGameOver}
         setMessage={setMessage}
+        showRules={showRules}
       />
+      {showRules ? (
+        <HowToPlay setShowRules={setShowRules} />
+      ) : (
+        <>
+          <div className="grid">
+            {wordStates.map((wordState, index) => (
+              <Word
+                key={index}
+                secretWord={secretWord}
+                word={wordState.guessedWord}
+                color={wordState.colors}
+              />
+            ))}
+          </div>
+          <Keyboard
+            letters={letters}
+            wordStates={wordStates}
+            setWordStates={setWordStates}
+            rowIndex={rowIndex}
+            setRowIndex={setRowIndex}
+            letterIndex={letterIndex}
+            setLetterIndex={setLetterIndex}
+            secretWord={secretWord}
+            setIsGameOver={setIsGameOver}
+            setMessage={setMessage}
+          />
+        </>
+      )}
     </div>
   );
 };
