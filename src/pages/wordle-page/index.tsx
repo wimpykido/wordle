@@ -96,7 +96,7 @@ const WordlePage = () => {
         setLetterIndex((prevIndex) => prevIndex + 1);
         console.log(letterIndex);
       }
-      if (key === "enter" && letterIndex === 6) {
+      if (key === "enter" && letterIndex === 6 && !isGameOver) {
         const colors = getLetterBackgroundColor(
           wordStates[rowIndex].guessedWord
         );
@@ -124,7 +124,7 @@ const WordlePage = () => {
         console.log("backgrounds:", colors);
         console.log("ეს", rowIndex);
       }
-      if (key === "backspace" && letterIndex > 0) {
+      if (key === "backspace" && letterIndex > 0 && !isGameOver) {
         console.log("წაშლა", letterIndex);
         const updatedWordStates = [...wordStates];
         updatedWordStates[rowIndex].guessedWord[letterIndex - 1] = "";
