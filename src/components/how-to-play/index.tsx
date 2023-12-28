@@ -11,12 +11,12 @@ type Props = {
 
 export const HowToPlay = ({ setShowRules }: Props) => {
   return (
-    <div className="font-custom">
-      <div className="mb-2.5 border w-full border-1 rounded-lg bg-custom-div flex items-center justify-between p-2">
+    <div className="font-custom w-[592px] mb-4">
+      <div className="mb-2.5 w-full rounded-lg bg-custom-div flex items-center justify-between p-2">
         <div></div>
         <h2 className="pt-1 text-lg">როგორ ვითამაშოთ</h2>
         <button onClick={() => setShowRules(false)}>
-          <img src={x} alt="x" />
+          <img src={x} alt="x" className="mr-2" />
         </button>
       </div>
       <div className="flex flex-col justify-center gap-3">

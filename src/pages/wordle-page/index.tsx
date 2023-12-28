@@ -89,7 +89,7 @@ const WordlePage = () => {
   useEffect(() => {
     const handleKeyPress = (e: any) => {
       const key = e.key.toLowerCase();
-      if (/^[ა-ჰ]$/.test(key) && letterIndex < 6) {
+      if (/^[ა-ჰ]$/.test(key) && letterIndex < 6 && !isGameOver) {
         const updatedWordStates = [...wordStates];
         updatedWordStates[rowIndex].guessedWord[letterIndex] = key;
         setWordStates(updatedWordStates);
