@@ -7,6 +7,8 @@ import { Navigation } from "../../components/navigation";
 import GameOver from "../../components/game-over";
 import { HowToPlay } from "../../components/how-to-play";
 import { Alert } from "../../components/alert";
+import { useWindowSize } from "@uidotdev/usehooks";
+import Confetti from "react-confetti";
 
 // კაი იქნება ამ ტიპს თუ გამოვიყენებთ any-s ნაცვლად
 type Word = {
@@ -38,6 +40,9 @@ const WordlePage = () => {
   const [isGameOver, setIsGameOver] = useState(false);
   const [message, setMessage] = useState("");
   const [showRules, setShowRules] = useState(false);
+  const [win, setWin] = useState(false);
+
+  const { width, height } = useWindowSize();
 
   const getLetterBackgroundColor = (arr: Array<any>) => {
     const backgroundColors: Array<string> = [];
@@ -108,6 +113,7 @@ const WordlePage = () => {
         );
         if (wordStates[rowIndex].guessedWord.join("") === secretWord.join("")) {
           setIsGameOver(true);
+          setWin(true);
           setMessage("თქვენ გაიმარჯვეთ!");
           return;
         }
@@ -117,6 +123,7 @@ const WordlePage = () => {
         ) {
           setIsGameOver(true);
           setMessage("თქვენ დამარცხდით!");
+          setWin(false);
           return;
         }
         setRowIndex((prevIndex) => prevIndex + 1);
@@ -154,9 +161,20 @@ const WordlePage = () => {
           setIsGameOver={setIsGameOver}
           setMessage={setMessage}
           setLetters={setLetters}
+          setWin={setWin}
         />
       )}
       <Alert />
+      {win && (
+        <Confetti
+          recycle={false}
+          run={true}
+          numberOfPieces={600}
+          tweenDuration={3000}
+          width={width!}
+          height={height!}
+        />
+      )}
       <Navigation
         setShowRules={setShowRules}
         setIsGameOver={setIsGameOver}
@@ -194,5 +212,4 @@ const WordlePage = () => {
     </div>
   );
 };
-
 export default WordlePage;
