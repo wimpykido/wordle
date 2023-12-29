@@ -11,7 +11,7 @@ export const Alert = () => {
     return () => clearTimeout(timeout);
   }, []);
   return showComponent ? (
-    <div className="absolute flex justify-center items-center w-screen h-screen">
+    <div className="absolute flex justify-center items-center w-screen h-screen z-20">
       <div className="font-custom bg-white p-6 rounded-lg shadow-[rgba(0,_0,_0,_0.4)_0px_30px_90px]">
         <h2 className="pt-2">გამოიცანი სიტყვა!</h2>
       </div>
