@@ -99,7 +99,6 @@ const WordlePage = () => {
         updatedWordStates[rowIndex].guessedWord[letterIndex] = key;
         setWordStates(updatedWordStates);
         setLetterIndex((prevIndex) => prevIndex + 1);
-        console.log(letterIndex);
       }
       if (key === "enter" && letterIndex === 6 && !isGameOver) {
         const colors = getLetterBackgroundColor(
@@ -127,17 +126,13 @@ const WordlePage = () => {
         }
         setRowIndex((prevIndex) => prevIndex + 1);
         setLetterIndex(0);
-        console.log("backgrounds:", colors);
-        console.log("ეს", rowIndex);
       }
       if (key === "backspace" && letterIndex > 0 && !isGameOver) {
-        console.log("წაშლა", letterIndex);
         const updatedWordStates = [...wordStates];
         updatedWordStates[rowIndex].guessedWord[letterIndex - 1] = "";
         setLetterIndex((prevIndex) => prevIndex - 1);
         setWordStates(updatedWordStates);
       }
-      console.log(key);
     };
     window.addEventListener("keydown", handleKeyPress);
     return () => {
