@@ -47,7 +47,7 @@ const WordlePage = () => {
   const getLetterBackgroundColor = (arr: Array<any>) => {
     const backgroundColors: Array<string> = [];
     const correctLetters: Array<string> = [];
-    arr.forEach((letter, index) => {
+    arr.forEach(async (letter, index) => {
       if (secretWord[index] === letter) {
         backgroundColors.push("bg-custom-green");
         correctLetters.push(letter);
@@ -68,7 +68,7 @@ const WordlePage = () => {
               : obj
           )
         );
-      } else {
+      } else { 
         setLetters((prev) =>
           prev.map((obj) => {
             const isCorrectLetter = obj.letter === letter;
@@ -105,7 +105,6 @@ const WordlePage = () => {
         const colors = getLetterBackgroundColor(
           wordStates[rowIndex].guessedWord
         );
-        // Update colors for the current word
         setWordStates((prevWordStates) =>
           prevWordStates.map((wordState, index) =>
             index === rowIndex ? { ...wordState, colors: colors } : wordState
@@ -145,8 +144,6 @@ const WordlePage = () => {
       window.removeEventListener("keydown", handleKeyPress);
     };
   }, [letterIndex, rowIndex, wordStates]);
-
-  console.log(wordStates);
 
   return (
     <div className="grid items-center justify-center gap-6">

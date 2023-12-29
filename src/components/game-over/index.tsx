@@ -52,7 +52,7 @@ const GameOver = ({
     setWin(false);
   };
   return (
-    <div className="absolute inset-0 flex justify-center items-center bg-custom-light bg-opacity-50 w-screen h-screen">
+    <div className="z-20 absolute inset-0 flex justify-center items-center bg-custom-light bg-opacity-50 w-screen h-screen">
       <div className="flex flex-col items-center justify-center gap-3 p-6 font-custom bg-white rounded-lg shadow-2xl">
         <h1 className="text-2xl">{message}</h1>
         <p>სწორი პასუხი იყო</p>
