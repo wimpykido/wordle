@@ -68,7 +68,7 @@ const WordlePage = () => {
               : obj
           )
         );
-      } else { 
+      } else {
         setLetters((prev) =>
           prev.map((obj) => {
             const isCorrectLetter = obj.letter === letter;
@@ -178,34 +178,29 @@ const WordlePage = () => {
         setMessage={setMessage}
         showRules={showRules}
       />
-      {showRules ? (
-        <HowToPlay setShowRules={setShowRules} />
-      ) : (
-        <>
-          <div className="grid">
-            {wordStates.map((wordState, index) => (
-              <Word
-                key={index}
-                secretWord={secretWord}
-                word={wordState.guessedWord}
-                color={wordState.colors}
-              />
-            ))}
-          </div>
-          <Keyboard
-            letters={letters}
-            wordStates={wordStates}
-            setWordStates={setWordStates}
-            rowIndex={rowIndex}
-            setRowIndex={setRowIndex}
-            letterIndex={letterIndex}
-            setLetterIndex={setLetterIndex}
+      <div className="grid relative">
+        {showRules && <HowToPlay setShowRules={setShowRules} />}
+        {wordStates.map((wordState, index) => (
+          <Word
+            key={index}
             secretWord={secretWord}
-            setIsGameOver={setIsGameOver}
-            setMessage={setMessage}
+            word={wordState.guessedWord}
+            color={wordState.colors}
           />
-        </>
-      )}
+        ))}
+      </div>
+      <Keyboard
+        letters={letters}
+        wordStates={wordStates}
+        setWordStates={setWordStates}
+        rowIndex={rowIndex}
+        setRowIndex={setRowIndex}
+        letterIndex={letterIndex}
+        setLetterIndex={setLetterIndex}
+        secretWord={secretWord}
+        setIsGameOver={setIsGameOver}
+        setMessage={setMessage}
+      />
     </div>
   );
 };
