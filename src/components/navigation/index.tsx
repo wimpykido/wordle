@@ -47,7 +47,6 @@ export const Navigation = ({
           className={`${
             showRules ? "bg-custom-lightGreen" : null
           } font-custom rounded-md outline-none ml-2 p-2 text-custom-text hover:bg-custom-light transition-all sm:text-lg`}
-          title="coming soon..."
         >
           <img src={HelpIcon} className="w-5 h-5 sm:w-6 sm:h-6" />
         </button>
