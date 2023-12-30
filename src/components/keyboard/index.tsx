@@ -53,7 +53,6 @@ export const Keyboard = ({
         return value;
     }
   };
-  console.log(letters);
   return (
     <div className="grid grid-rows-3 grid-cols-10 gap-1 sm:gap-2">
       {letters.map((value, i) => (
