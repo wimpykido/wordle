@@ -1,5 +1,5 @@
+import { getRandomWord } from "../../api";
 import { letterType } from "../../pages/wordle-page";
-import { getRandomWord } from "../gameRules/words";
 import keys from "../keyboard/keys";
 
 type GameOverProps = {
@@ -34,22 +34,27 @@ const GameOver = ({
   setLetters,
   setWin,
 }: GameOverProps) => {
-  const handleClick = () => {
-    setSecretWord(getRandomWord().split(""));
-    setWordStates(
-      Array(6)
-        .fill("")
-        .map(() => ({
-          guessedWord: Array(6).fill(""),
-          colors: Array(6).fill(""),
-        }))
-    );
-    setRowIndex(0);
-    setLetterIndex(0);
-    setIsGameOver(false);
-    setMessage("");
-    setLetters(keys);
-    setWin(false);
+  const handleClick = async () => {
+    try {
+      const newSecretWord = await getRandomWord();
+      setSecretWord(newSecretWord.split(""));
+      setWordStates(
+        Array(6)
+          .fill("")
+          .map(() => ({
+            guessedWord: Array(6).fill(""),
+            colors: Array(6).fill(""),
+          }))
+      );
+      setRowIndex(0);
+      setLetterIndex(0);
+      setIsGameOver(false);
+      setMessage("");
+      setLetters(keys);
+      setWin(false);
+    } catch (error) {
+      console.error("Error setting secret word:", error);
+    }
   };
   return (
     <div className="z-20 absolute inset-0 flex justify-center items-center bg-custom-light bg-opacity-50 w-screen h-screen">
