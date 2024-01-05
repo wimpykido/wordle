@@ -11,7 +11,7 @@ type Props = {
 
 export const HowToPlay = ({ setShowRules }: Props) => {
   return (
-    <div className="font-custom w-[592px] mb-4 absolute bg-white z-50">
+    <div className="font-custom w-full mb-4 absolute bg-white z-50 sm:w-[592px]">
       <div className="mb-2.5 w-full rounded-lg bg-custom-div flex items-center justify-center p-2 relative">
         <h2 className="pt-1 text-lg">როგორ ვითამაშოთ</h2>
         <button
@@ -43,13 +43,15 @@ export const HowToPlay = ({ setShowRules }: Props) => {
               <SmallLetterInput letter="გ" color={colors[2]} />
               <span className="mr-2">,</span>
               <SmallLetterInput letter="ა" color={colors[2]} />
-              <p className="pt-1 font-light">არ არის სიტყვაში</p>
+              <p className="pt-1 font-light text-sm sm:text-base">
+                არ არის სიტყვაში
+              </p>
             </div>
             <div className="flex items-center justify-center">
               <SmallLetterInput letter="ა" color={colors[1]} />
               <span className="mr-2">,</span>
               <SmallLetterInput letter="დ" color={colors[1]} />
-              <p className="pt-1 font-light">
+              <p className="pt-1 font-light text-sm sm:text-base">
                 სიტყვაშია, თუმცა არასწორ ადგილას
               </p>
             </div>
@@ -57,7 +59,9 @@ export const HowToPlay = ({ setShowRules }: Props) => {
               <SmallLetterInput letter="მ" color={colors[0]} />
               <span className="mr-2">,</span>
               <SmallLetterInput letter="ი" color={colors[0]} />
-              <p className="pt-1 font-light">სიტყვაშია, სწორ ადგილას</p>
+              <p className="pt-1 font-light text-sm sm:text-base">
+                სიტყვაშია, სწორ ადგილას
+              </p>
             </div>
           </div>
           <p>კიდევ ერთი ცდა, რომ იპოვოთ შესაბამისი ასოები სიტყვაში.</p>
