@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Keyboard } from "../../components/keyboard";
 import { Word } from "../../components/word";
-import { getRandomWord } from "../../components/gameRules/words";
 import keys from "../../components/keyboard/keys";
 import { Navigation } from "../../components/navigation";
 import GameOver from "../../components/game-over";
@@ -9,13 +8,8 @@ import { HowToPlay } from "../../components/how-to-play";
 import { Alert } from "../../components/alert";
 import { useWindowSize } from "@uidotdev/usehooks";
 import Confetti from "react-confetti";
+import { getRandomWord } from "../../api";
 
-// კაი იქნება ამ ტიპს თუ გამოვიყენებთ any-s ნაცვლად
-type Word = {
-  guessedWord: Array<any>;
-  colors: Array<any>;
-  checked: boolean;
-};
 
 export type letterType = {
   letter: string;
@@ -31,9 +25,7 @@ const WordlePage = () => {
         colors: Array(6).fill(""),
       }))
   );
-  const [secretWord, setSecretWord] = useState<Array<string>>(
-    getRandomWord().split("")
-  );
+  const [secretWord, setSecretWord] = useState<Array<string>>([]);
   const [rowIndex, setRowIndex] = useState(0);
   const [letterIndex, setLetterIndex] = useState(0);
   const [letters, setLetters] = useState<Array<letterType>>(keys);
@@ -43,6 +35,20 @@ const WordlePage = () => {
   const [win, setWin] = useState(false);
 
   const { width, height } = useWindowSize();
+
+  useEffect(() => {
+    const fetchDataAndSetWord = async () => {
+      try {
+        const word = await getRandomWord();
+        setSecretWord(word.split(""));
+        console.log("hi");
+      } catch (error) {
+        console.error("Error setting secret word:", error);
+      }
+    };
+
+    fetchDataAndSetWord();
+  }, []);
 
   const getLetterBackgroundColor = (arr: Array<any>) => {
     const backgroundColors: Array<string> = [];
@@ -140,6 +146,7 @@ const WordlePage = () => {
     };
   }, [letterIndex, rowIndex, wordStates]);
 
+  console.log(secretWord);
   return (
     <div className="grid items-center justify-center gap-6">
       {isGameOver && (
