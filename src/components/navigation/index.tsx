@@ -1,13 +1,16 @@
 import StatsIcon from "../../assets/stats.png";
 import SettingsIcon from "../../assets/settings.png";
 import HelpIcon from "../../assets/help.png";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useContext } from "react";
+import { StatsContext, StatsContextType } from "../../context";
 
 type NavigationProps = {
   setIsGameOver: Dispatch<SetStateAction<boolean>>;
   setMessage: Dispatch<SetStateAction<string>>;
   setShowRules: Dispatch<SetStateAction<boolean>>;
+  setShowStats: React.Dispatch<React.SetStateAction<boolean>>;
   showRules: boolean;
+  showStats: boolean;
 };
 
 export const Navigation = ({
@@ -15,8 +18,12 @@ export const Navigation = ({
   setMessage,
   setShowRules,
   showRules,
+  setShowStats,
+  showStats,
 }: NavigationProps) => {
+  const { updateStats, data } = useContext(StatsContext) as StatsContextType;
   const handleClick = () => {
+    updateStats({ played: data.played + 1, giveUps: data.giveUps + 1 });
     setMessage("თქვენ დამარცხდით!");
     setIsGameOver(true);
   };
@@ -31,16 +38,20 @@ export const Navigation = ({
       </button>
       <div className="flex">
         <button
+          onClick={() => setShowStats(!showStats)}
           className={`font-custom rounded-md outline-none ml-2 p-2 text-custom-text hover:bg-custom-light transition-all sm:text-lg`}
-          title="coming soon..."
         >
-          <img src={StatsIcon} className="w-5 h-5 sm:w-6 sm:h-6" />
+          <img src={StatsIcon} alt="logo" className="w-5 h-5 sm:w-6 sm:h-6" />
         </button>
         <button
           className={`font-custom rounded-md outline-none ml-2 p-2 text-custom-text hover:bg-custom-light transition-all sm:text-lg`}
           title="coming soon..."
         >
-          <img src={SettingsIcon} className="w-5 h-5 sm:w-6 sm:h-6" />
+          <img
+            src={SettingsIcon}
+            alt="logo"
+            className="w-5 h-5 sm:w-6 sm:h-6"
+          />
         </button>
         <button
           onClick={() => setShowRules(!showRules)}
@@ -48,7 +59,7 @@ export const Navigation = ({
             showRules ? "bg-custom-lightGreen" : null
           } font-custom rounded-md outline-none ml-2 p-2 text-custom-text hover:bg-custom-light transition-all sm:text-lg`}
         >
-          <img src={HelpIcon} className="w-5 h-5 sm:w-6 sm:h-6" />
+          <img src={HelpIcon} alt="logo" className="w-5 h-5 sm:w-6 sm:h-6" />
         </button>
       </div>
     </nav>
