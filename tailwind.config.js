@@ -21,6 +21,7 @@ module.exports = {
           div: "#e8ecfc",
           lightGrey: "#edf0f5",
           lightGreen: "#e6f3e6",
+          veryLightGrey: "#f5f7fb",
         },
       },
     },

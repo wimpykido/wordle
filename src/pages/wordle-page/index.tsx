@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Keyboard } from "../../components/keyboard";
 import { Word } from "../../components/word";
 import keys from "../../components/keyboard/keys";
@@ -9,7 +9,8 @@ import { Alert } from "../../components/alert";
 import { useWindowSize } from "@uidotdev/usehooks";
 import Confetti from "react-confetti";
 import { getRandomWord } from "../../api";
-
+import { Statistics } from "../../components/statistics";
+import { StatsContext, StatsContextType } from "../../context";
 
 export type letterType = {
   letter: string;
@@ -32,9 +33,11 @@ const WordlePage = () => {
   const [isGameOver, setIsGameOver] = useState(false);
   const [message, setMessage] = useState("");
   const [showRules, setShowRules] = useState(false);
+  const [showStats, setShowStats] = useState(false);
   const [win, setWin] = useState(false);
 
   const { width, height } = useWindowSize();
+  const { updateStats, data } = useContext(StatsContext) as StatsContextType;
 
   useEffect(() => {
     const fetchDataAndSetWord = async () => {
@@ -119,6 +122,10 @@ const WordlePage = () => {
           setIsGameOver(true);
           setWin(true);
           setMessage("თქვენ გაიმარჯვეთ!");
+          updateStats({ won: data.won + 1, played: data.played + 1 });
+          if (rowIndex > data.bestTry) {
+            updateStats({ bestTry: data.bestTry + 1 });
+          }
           return;
         }
         if (
@@ -128,6 +135,7 @@ const WordlePage = () => {
           setIsGameOver(true);
           setMessage("თქვენ დამარცხდით!");
           setWin(false);
+          updateStats({ loses: data.loses + 1, played: data.played + 1 });
           return;
         }
         setRowIndex((prevIndex) => prevIndex + 1);
@@ -176,12 +184,15 @@ const WordlePage = () => {
       )}
       <Navigation
         setShowRules={setShowRules}
+        setShowStats={setShowStats}
         setIsGameOver={setIsGameOver}
         setMessage={setMessage}
         showRules={showRules}
+        showStats={showStats}
       />
       <div className="grid relative">
         {showRules && <HowToPlay setShowRules={setShowRules} />}
+        {showStats && <Statistics setShowStats={setShowStats} />}
         {wordStates.map((wordState, index) => (
           <Word
             key={index}
