@@ -37,6 +37,13 @@ keys = [
   { letter: "ნ", color: defaultColor },
   { letter: "მ", color: defaultColor },
   { letter: "Enter", color: defaultColor },
+  {letter: "ჭ", color: defaultColor},
+  {letter: "ღ", color: defaultColor},
+  {letter: "თ", color: defaultColor},
+  {letter: "შ", color: defaultColor},
+  {letter: "ჟ", color: defaultColor},
+  {letter: "ძ", color: defaultColor},
+  {letter: "ჩ", color: defaultColor},
 ];
 
 export default keys;
