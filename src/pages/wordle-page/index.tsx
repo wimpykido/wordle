@@ -171,7 +171,6 @@ const WordlePage = () => {
           setWin={setWin}
         />
       )}
-      <Alert />
       {win && (
         <Confetti
           recycle={false}
@@ -191,6 +190,7 @@ const WordlePage = () => {
         showStats={showStats}
       />
       <div className="grid relative">
+        <Alert />
         {showRules && <HowToPlay setShowRules={setShowRules} />}
         {showStats && <Statistics setShowStats={setShowStats} />}
         {wordStates.map((wordState, index) => (

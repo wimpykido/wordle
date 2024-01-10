@@ -38,13 +38,17 @@ export const Navigation = ({
       </button>
       <div className="flex">
         <button
-          onClick={() => setShowStats(!showStats)}
-          className={`font-custom rounded-md outline-none ml-2 p-2 text-custom-text hover:bg-custom-light transition-all sm:text-lg`}
+          onClick={() => {
+            setShowStats(!showStats);
+            setShowRules(false);
+          }}
+          className={`font-custom rounded-md outline-none ml-2 p-2 text-custom-text hover:bg-custom-lightGreen transition-all sm:text-lg
+          ${showStats && "bg-custom-lightGreen"}`}
         >
           <img src={StatsIcon} alt="logo" className="w-5 h-5 sm:w-6 sm:h-6" />
         </button>
         <button
-          className={`font-custom rounded-md outline-none ml-2 p-2 text-custom-text hover:bg-custom-light transition-all sm:text-lg`}
+          className={`font-custom rounded-md outline-none ml-2 p-2 text-custom-text hover:bg-custom-lightGreen transition-all sm:text-lg`}
           title="coming soon..."
         >
           <img
@@ -54,10 +58,12 @@ export const Navigation = ({
           />
         </button>
         <button
-          onClick={() => setShowRules(!showRules)}
-          className={`${
-            showRules ? "bg-custom-lightGreen" : null
-          } font-custom rounded-md outline-none ml-2 p-2 text-custom-text hover:bg-custom-light transition-all sm:text-lg`}
+          onClick={() => {
+            setShowRules(!showRules);
+            setShowStats(false);
+          }}
+          className={`font-custom rounded-md outline-none ml-2 p-2 text-custom-text hover:bg-custom-lightGreen transition-all sm:text-lg
+          ${showRules && "bg-custom-lightGreen"}`}
         >
           <img src={HelpIcon} alt="logo" className="w-5 h-5 sm:w-6 sm:h-6" />
         </button>
