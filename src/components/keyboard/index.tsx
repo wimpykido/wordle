@@ -54,46 +54,7 @@ export const Keyboard = ({
         return letters.find(letterObj => letterObj.letter === value);;
     }
   };
-  // const shiftValue = (value: string) => {
-  //   switch (value) {
-  //     case "წ":
-  //       return letters[letters.length - 7].letter;
-  //     case "რ":
-  //       return letters[letters.length - 6].letter;
-  //     case "ტ":
-  //       return letters[letters.length - 5].letter;
-  //     case "ს":
-  //       return letters[letters.length - 4].letter;
-  //     case "ჯ":
-  //       return letters[letters.length - 3].letter;
-  //     case "ზ":
-  //       return letters[letters.length - 2].letter;
-  //     case "ც":
-  //       return letters[letters.length - 1].letter;
-  //     default:
-  //       return value;
-  //   }
-  // };
-  // const shiftValue = (value: string) => {
-  //   switch (value) {
-  //     case "წ":
-  //       return "ჭ";
-  //     case "რ":
-  //       return "ღ";
-  //     case "ტ":
-  //       return "თ";
-  //     case "ს":
-  //       return "შ";
-  //     case "ჯ":
-  //       return "ჟ";
-  //     case "ზ":
-  //       return "ძ";
-  //     case "ც":
-  //       return "ჩ";
-  //     default:
-  //       return value;
-  //   }
-  // };
+
   return (
     <div className="grid grid-rows-3 grid-cols-10 gap-1 sm:gap-2">
       {letters.map(
