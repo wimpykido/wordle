@@ -51,7 +51,7 @@ export const Keyboard = ({
       case "ც":
         return letters[letters.length - 1];
       default:
-        return letters.find(letterObj => letterObj.letter === value);;
+        return letters.find(letterObj => letterObj.letter === value);
     }
   };
 
