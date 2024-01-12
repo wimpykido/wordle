@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/wordle/static/css/main.dd81dc4a.css",
+    "main.js": "/wordle/static/js/main.a9a8e615.js",
+    "static/media/settings.png": "/wordle/static/media/settings.9ad44d4a181860fc74c4.png",
+    "static/media/help.png": "/wordle/static/media/help.c79da3d56c98539c49b4.png",
+    "index.html": "/wordle/index.html",
+    "static/media/x-solid.svg": "/wordle/static/media/x-solid.ec04d141eb5808a2005821ddcc5413b0.svg",
+    "main.dd81dc4a.css.map": "/wordle/static/css/main.dd81dc4a.css.map",
+    "main.a9a8e615.js.map": "/wordle/static/js/main.a9a8e615.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.dd81dc4a.css",
+    "static/js/main.a9a8e615.js"
+  ]
+}
