@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import WordlePage from "./pages/wordle-page";
 const App = () => {
   return (
-    <BrowserRouter basename="/wordle">
+    <BrowserRouter basename="">
       <Routes>
         <Route path="/" element={<WordlePage />} />
       </Routes>
