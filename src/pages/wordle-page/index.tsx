@@ -96,21 +96,23 @@ const WordlePage = () => {
           )
         );
       } else {
-        if (backgroundColors[index] !== "bg-custom-green") {
-          backgroundColors[index] = "bg-custom-dark";
-          setLetters((prev) =>
-            prev.map((obj) => {
-              const isCorrectLetter = obj.letter === letter;
-              const isCorrectColor =
-                obj.color === "bg-custom-yellow" ||
-                obj.color === "bg-custom-green";
-              const shouldUpdateColor = isCorrectLetter && !isCorrectColor;
-              return shouldUpdateColor
-                ? { ...obj, color: "bg-custom-dark" }
-                : obj;
-            })
-          );
-        }
+        setLetters((prev) =>
+          prev.map((obj) => {
+            const isCorrectLetter = obj.letter === letter;
+            const isCorrectColor =
+              obj.color === "bg-custom-yellow" ||
+              obj.color === "bg-custom-green";
+            const shouldUpdateColor =
+              isCorrectLetter &&
+              !correctLetters.includes(letter) &&
+              !isCorrectColor;
+
+            return shouldUpdateColor
+              ? { ...obj, color: "bg-custom-dark" }
+              : obj;
+          })
+        );
+        backgroundColors.push("bg-custom-dark");
       }
     });
     return backgroundColors;
