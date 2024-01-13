@@ -55,46 +55,47 @@ const WordlePage = () => {
 
   const getLetterBackgroundColor = (arr: Array<any>) => {
     const backgroundColors: Array<string> = [];
-    const correctLetters: Array<string> = [];
-    arr.forEach(async (letter, index) => {
-      if (secretWord[index] === letter) {
+    let answer: Array<string> = secretWord.slice();
+    arr.forEach((letter, index) => {
+      if (letter === answer[index]) {
         backgroundColors.push("bg-custom-green");
-        correctLetters.push(letter);
         setLetters((prev) =>
           prev.map((obj) =>
             obj.letter === letter ? { ...obj, color: "bg-custom-green" } : obj
           )
         );
-      } else if (
-        secretWord.includes(letter) &&
-        !correctLetters.includes(letter)
-      ) {
-        backgroundColors.push("bg-custom-yellow");
-        setLetters((prev) =>
-          prev.map((obj) =>
-            obj.letter === letter && obj.color !== "bg-custom-green"
-              ? { ...obj, color: "bg-custom-yellow" }
-              : obj
-          )
-        );
+        answer[index] = "";
+      } else backgroundColors.push("");
+    });
+    arr.forEach((letter, index) => {
+      if (answer.includes(letter)) {
+        if (backgroundColors[index] !== "bg-custom-green") {
+          backgroundColors[index] = "bg-custom-yellow";
+          answer[answer.indexOf(letter)] = "";
+          setLetters((prev) =>
+            prev.map((obj) =>
+              obj.letter === letter && obj.color !== "bg-custom-green"
+                ? { ...obj, color: "bg-custom-yellow" }
+                : obj
+            )
+          );
+        }
       } else {
-        setLetters((prev) =>
-          prev.map((obj) => {
-            const isCorrectLetter = obj.letter === letter;
-            const isCorrectColor =
-              obj.color === "bg-custom-yellow" ||
-              obj.color === "bg-custom-green";
-            const shouldUpdateColor =
-              isCorrectLetter &&
-              !correctLetters.includes(letter) &&
-              !isCorrectColor;
-
-            return shouldUpdateColor
-              ? { ...obj, color: "bg-custom-dark" }
-              : obj;
-          })
-        );
-        backgroundColors.push("bg-custom-dark");
+        if (backgroundColors[index] !== "bg-custom-green") {
+          backgroundColors[index] = "bg-custom-dark";
+          setLetters((prev) =>
+            prev.map((obj) => {
+              const isCorrectLetter = obj.letter === letter;
+              const isCorrectColor =
+                obj.color === "bg-custom-yellow" ||
+                obj.color === "bg-custom-green";
+              const shouldUpdateColor = isCorrectLetter && !isCorrectColor;
+              return shouldUpdateColor
+                ? { ...obj, color: "bg-custom-dark" }
+                : obj;
+            })
+          );
+        }
       }
     });
     return backgroundColors;
