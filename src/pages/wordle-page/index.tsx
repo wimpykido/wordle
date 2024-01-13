@@ -53,13 +53,29 @@ const WordlePage = () => {
     fetchDataAndSetWord();
   }, []);
 
+  const countElement = (arr: Array<string>, target: string) => {
+    return arr.reduce(function (count, element) {
+      return count + (element === target ? 1 : 0);
+    }, 0);
+  };
   const getLetterBackgroundColor = (arr: Array<any>) => {
     const backgroundColors: Array<string> = [];
     const correctLetters: Array<string> = [];
-    arr.forEach(async (letter, index) => {
+    const letterQuantity: { [key: string]: number } = {};
+    const incorrectPos: Array<string> = [];
+
+    secretWord.forEach((letter) => {
+      letterQuantity[letter] = (letterQuantity[letter] || 0) + 1;
+    });
+
+    arr.forEach((letter, index) => {
+      if (secretWord[index] === letter) {
+        correctLetters.push(letter);
+      }
+    });
+    arr.forEach((letter, index) => {
       if (secretWord[index] === letter) {
         backgroundColors.push("bg-custom-green");
-        correctLetters.push(letter);
         setLetters((prev) =>
           prev.map((obj) =>
             obj.letter === letter ? { ...obj, color: "bg-custom-green" } : obj
@@ -67,8 +83,10 @@ const WordlePage = () => {
         );
       } else if (
         secretWord.includes(letter) &&
-        !correctLetters.includes(letter)
+        !correctLetters.includes(letter) &&
+        letterQuantity[letter] > countElement(incorrectPos, letter)
       ) {
+        incorrectPos.push(letter);
         backgroundColors.push("bg-custom-yellow");
         setLetters((prev) =>
           prev.map((obj) =>
@@ -110,6 +128,7 @@ const WordlePage = () => {
         setLetterIndex((prevIndex) => prevIndex + 1);
       }
       if (key === "enter" && letterIndex === 6 && !isGameOver) {
+        console.log(letters);
         const colors = getLetterBackgroundColor(
           wordStates[rowIndex].guessedWord
         );
@@ -124,7 +143,7 @@ const WordlePage = () => {
           setMessage("თქვენ გაიმარჯვეთ!");
           updateStats({ won: data.won + 1, played: data.played + 1 });
           if (rowIndex > data.bestTry) {
-            updateStats({ bestTry: data.bestTry + 1 });
+            updateStats({ bestTry: rowIndex + 1 });
           }
           return;
         }
