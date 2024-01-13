@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import { KeyboardButton } from "../keyboard-button";
 import { letterType } from "../../pages/wordle-page";
+import { LetterInput } from "../letter-input";
 
 interface KeyboardProps {
   wordStates: {
@@ -16,8 +17,11 @@ interface KeyboardProps {
   setLetterIndex: React.Dispatch<React.SetStateAction<number>>;
   secretWord: string[];
   letters: Array<letterType>;
+  setLetters: React.Dispatch<React.SetStateAction<letterType[]>>;
+  isGameOver: boolean;
   setIsGameOver: React.Dispatch<React.SetStateAction<boolean>>;
   setMessage: React.Dispatch<React.SetStateAction<string>>;
+  setWin: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const Keyboard = ({
@@ -29,8 +33,11 @@ export const Keyboard = ({
   setLetterIndex,
   secretWord,
   letters,
+  setLetters,
+  isGameOver,
   setIsGameOver,
   setMessage,
+  setWin,
 }: KeyboardProps) => {
   const [shift, setShift] = useState<boolean>(false);
   const shiftValue = (value: string) => {
@@ -50,7 +57,7 @@ export const Keyboard = ({
       case "ც":
         return letters[letters.length - 1];
       default:
-        return letters.find(letterObj => letterObj.letter === value);
+        return letters.find((letterObj) => letterObj.letter === value);
     }
   };
 
@@ -60,9 +67,17 @@ export const Keyboard = ({
         (value, i) =>
           i <= letters.length - 8 && (
             <KeyboardButton
-              color={shift ? shiftValue(value.letter)?.color ?? value.color : value.color}
+              color={
+                shift
+                  ? shiftValue(value.letter)?.color ?? value.color
+                  : value.color
+              }
               key={i}
-              value={shift ? shiftValue(value.letter)?.letter ?? value.letter : value.letter}
+              value={
+                shift
+                  ? shiftValue(value.letter)?.letter ?? value.letter
+                  : value.letter
+              }
               shift={shift}
               setShift={setShift}
               wordStates={wordStates}
@@ -71,9 +86,12 @@ export const Keyboard = ({
               setRowIndex={setRowIndex}
               letterIndex={letterIndex}
               setLetterIndex={setLetterIndex}
+              setLetters={setLetters}
               secretWord={secretWord}
+              isGameOver={isGameOver}
               setIsGameOver={setIsGameOver}
               setMessage={setMessage}
+              setWin={setWin}
             />
           )
       )}
