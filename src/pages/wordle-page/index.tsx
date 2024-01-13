@@ -205,6 +205,7 @@ const WordlePage = () => {
       </div>
       <Keyboard
         letters={letters}
+        setLetters={setLetters}
         wordStates={wordStates}
         setWordStates={setWordStates}
         rowIndex={rowIndex}
@@ -212,8 +213,10 @@ const WordlePage = () => {
         letterIndex={letterIndex}
         setLetterIndex={setLetterIndex}
         secretWord={secretWord}
+        isGameOver={isGameOver}
         setIsGameOver={setIsGameOver}
         setMessage={setMessage}
+        setWin={setWin}
       />
     </div>
   );

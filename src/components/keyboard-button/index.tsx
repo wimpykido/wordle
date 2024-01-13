@@ -1,7 +1,9 @@
 import ShiftIcon from "../../assets/up.png";
 import DeleteIcon from "../../assets/delete.png";
 import EnterIcon from "../../assets/enter.png";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useContext } from "react";
+import { letterType } from "../../pages/wordle-page";
+import { StatsContext, StatsContextType } from "../../context";
 interface KeyboardButtonProps {
   value: string;
   shift: boolean;
@@ -17,10 +19,13 @@ interface KeyboardButtonProps {
   setRowIndex: React.Dispatch<React.SetStateAction<number>>;
   letterIndex: number;
   setLetterIndex: React.Dispatch<React.SetStateAction<number>>;
+  setLetters: React.Dispatch<React.SetStateAction<letterType[]>>;
   secretWord: string[];
   color: string;
+  isGameOver: boolean;
   setIsGameOver: React.Dispatch<React.SetStateAction<boolean>>;
   setMessage: React.Dispatch<React.SetStateAction<string>>;
+  setWin: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const KeyboardButton = ({
@@ -33,20 +38,58 @@ export const KeyboardButton = ({
   setRowIndex,
   letterIndex,
   setLetterIndex,
+  setLetters,
   secretWord,
   color,
+  isGameOver,
   setIsGameOver,
   setMessage,
+  setWin,
 }: KeyboardButtonProps) => {
+  const { updateStats, data } = useContext(StatsContext) as StatsContextType;
   const getLetterBackgroundColor = (arr: Array<any>) => {
     const backgroundColors: Array<string> = [];
+    let answer: Array<string> = secretWord.slice();
     arr.forEach((letter, index) => {
-      if (secretWord[index] === letter) {
+      if (letter === answer[index]) {
         backgroundColors.push("bg-custom-green");
-      } else if (secretWord.includes(letter)) {
-        backgroundColors.push("bg-custom-yellow");
+        setLetters((prev) =>
+          prev.map((obj) =>
+            obj.letter === letter ? { ...obj, color: "bg-custom-green" } : obj
+          )
+        );
+        answer[index] = "";
+      } else backgroundColors.push("");
+    });
+    arr.forEach((letter, index) => {
+      if (answer.includes(letter)) {
+        if (backgroundColors[index] !== "bg-custom-green") {
+          backgroundColors[index] = "bg-custom-yellow";
+          answer[answer.indexOf(letter)] = "";
+          setLetters((prev) =>
+            prev.map((obj) =>
+              obj.letter === letter && obj.color !== "bg-custom-green"
+                ? { ...obj, color: "bg-custom-yellow" }
+                : obj
+            )
+          );
+        }
       } else {
-        backgroundColors.push("bg-custom-dark");
+        if (backgroundColors[index] !== "bg-custom-green") {
+          backgroundColors[index] = "bg-custom-dark";
+          setLetters((prev) =>
+            prev.map((obj) => {
+              const isCorrectLetter = obj.letter === letter;
+              const isCorrectColor =
+                obj.color === "bg-custom-yellow" ||
+                obj.color === "bg-custom-green";
+              const shouldUpdateColor = isCorrectLetter && !isCorrectColor;
+              return shouldUpdateColor
+                ? { ...obj, color: "bg-custom-dark" }
+                : obj;
+            })
+          );
+        }
       }
     });
     return backgroundColors;
@@ -68,7 +111,7 @@ export const KeyboardButton = ({
         }
         break;
       case "Enter":
-        if (letterIndex === 6) {
+        if (letterIndex === 6 && !isGameOver) {
           const colors = getLetterBackgroundColor(
             wordStates[rowIndex].guessedWord
           );
@@ -81,7 +124,12 @@ export const KeyboardButton = ({
             wordStates[rowIndex].guessedWord.join("") === secretWord.join("")
           ) {
             setIsGameOver(true);
+            setWin(true);
             setMessage("თქვენ გაიმარჯვეთ!");
+            updateStats({ won: data.won + 1, played: data.played + 1 });
+            if (rowIndex > data.bestTry) {
+              updateStats({ bestTry: data.bestTry + 1 });
+            }
             return;
           }
           if (
@@ -90,6 +138,8 @@ export const KeyboardButton = ({
           ) {
             setIsGameOver(true);
             setMessage("თქვენ დამარცხდით!");
+            setWin(false);
+            updateStats({ loses: data.loses + 1, played: data.played + 1 });
             return;
           }
           setRowIndex((prevIndex) => prevIndex + 1);
