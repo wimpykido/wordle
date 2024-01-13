@@ -53,49 +53,66 @@ const WordlePage = () => {
     fetchDataAndSetWord();
   }, []);
 
+  const countElement = (arr: Array<string>, target: string) => {
+    return arr.reduce(function (count, element) {
+      return count + (element === target ? 1 : 0);
+    }, 0);
+  };
   const getLetterBackgroundColor = (arr: Array<any>) => {
     const backgroundColors: Array<string> = [];
-    let answer: Array<string> = secretWord.slice();
+    const correctLetters: Array<string> = [];
+    const letterQuantity: { [key: string]: number } = {};
+    const incorrectPos: Array<string> = [];
+
+    secretWord.forEach((letter) => {
+      letterQuantity[letter] = (letterQuantity[letter] || 0) + 1;
+    });
+
     arr.forEach((letter, index) => {
-      if (letter === answer[index]) {
+      if (secretWord[index] === letter) {
+        correctLetters.push(letter);
+      }
+    });
+    arr.forEach((letter, index) => {
+      if (secretWord[index] === letter) {
         backgroundColors.push("bg-custom-green");
         setLetters((prev) =>
           prev.map((obj) =>
             obj.letter === letter ? { ...obj, color: "bg-custom-green" } : obj
           )
         );
-        answer[index] = "";
-      } else backgroundColors.push("");
-    });
-    arr.forEach((letter, index) => {
-      if (answer.includes(letter)) {
-        if (backgroundColors[index] !== "bg-custom-green") {
-          backgroundColors[index] = "bg-custom-yellow";
-          answer[answer.indexOf(letter)] = "";
-          setLetters((prev) =>
-            prev.map((obj) =>
-              obj.letter === letter && obj.color !== "bg-custom-green"
-                ? { ...obj, color: "bg-custom-yellow" }
-                : obj
-            )
-          );
-        }
+      } else if (
+        secretWord.includes(letter) &&
+        !correctLetters.includes(letter) &&
+        letterQuantity[letter] > countElement(incorrectPos, letter)
+      ) {
+        incorrectPos.push(letter);
+        backgroundColors.push("bg-custom-yellow");
+        setLetters((prev) =>
+          prev.map((obj) =>
+            obj.letter === letter && obj.color !== "bg-custom-green"
+              ? { ...obj, color: "bg-custom-yellow" }
+              : obj
+          )
+        );
       } else {
-        if (backgroundColors[index] !== "bg-custom-green") {
-          backgroundColors[index] = "bg-custom-dark";
-          setLetters((prev) =>
-            prev.map((obj) => {
-              const isCorrectLetter = obj.letter === letter;
-              const isCorrectColor =
-                obj.color === "bg-custom-yellow" ||
-                obj.color === "bg-custom-green";
-              const shouldUpdateColor = isCorrectLetter && !isCorrectColor;
-              return shouldUpdateColor
-                ? { ...obj, color: "bg-custom-dark" }
-                : obj;
-            })
-          );
-        }
+        setLetters((prev) =>
+          prev.map((obj) => {
+            const isCorrectLetter = obj.letter === letter;
+            const isCorrectColor =
+              obj.color === "bg-custom-yellow" ||
+              obj.color === "bg-custom-green";
+            const shouldUpdateColor =
+              isCorrectLetter &&
+              !correctLetters.includes(letter) &&
+              !isCorrectColor;
+
+            return shouldUpdateColor
+              ? { ...obj, color: "bg-custom-dark" }
+              : obj;
+          })
+        );
+        backgroundColors.push("bg-custom-dark");
       }
     });
     return backgroundColors;
@@ -111,6 +128,7 @@ const WordlePage = () => {
         setLetterIndex((prevIndex) => prevIndex + 1);
       }
       if (key === "enter" && letterIndex === 6 && !isGameOver) {
+        console.log(letters);
         const colors = getLetterBackgroundColor(
           wordStates[rowIndex].guessedWord
         );
@@ -125,7 +143,7 @@ const WordlePage = () => {
           setMessage("თქვენ გაიმარჯვეთ!");
           updateStats({ won: data.won + 1, played: data.played + 1 });
           if (rowIndex > data.bestTry) {
-            updateStats({ bestTry: data.bestTry + 1 });
+            updateStats({ bestTry: rowIndex + 1 });
           }
           return;
         }

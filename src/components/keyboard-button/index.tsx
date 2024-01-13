@@ -69,6 +69,13 @@ export const KeyboardButton = ({
         break;
       case "Enter":
         if (letterIndex === 6) {
+          const enterKeyPress = new KeyboardEvent("keydown", {
+            key: "Enter",
+            code: "Enter",
+            keyCode: 13,
+            which: 13,
+          });
+          window.dispatchEvent(enterKeyPress);
           const colors = getLetterBackgroundColor(
             wordStates[rowIndex].guessedWord
           );

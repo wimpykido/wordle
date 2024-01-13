@@ -1,7 +1,6 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import { KeyboardButton } from "../keyboard-button";
 import { letterType } from "../../pages/wordle-page";
-import { LetterInput } from "../letter-input";
 
 interface KeyboardProps {
   wordStates: {
