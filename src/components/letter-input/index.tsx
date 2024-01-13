@@ -6,7 +6,7 @@ type LetterInputProps = {
 export const LetterInput = ({ letter, color }: LetterInputProps) => {
   return (
     <div
-      className={`font-custom border-2 flex items-center justify-center m-[3px] rounded-md w-11 h-11 transition-all transform sm:w-14 sm:h-14
+      className={`font-custom border-2 flex items-center justify-center m-[3px] rounded-md w-[3.25rem] h-[3.25rem] transition-all sm:w-14 sm:h-14
       ${letter !== "" ? "border-custom-borderDark scale-105" : ""} ${
         color ? "scale-y-[-1]" : ""
       } ${color} ${
