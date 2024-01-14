@@ -124,8 +124,8 @@ const WordlePage = () => {
           setWin(true);
           setMessage("თქვენ გაიმარჯვეთ!");
           updateStats({ won: data.won + 1, played: data.played + 1 });
-          if (rowIndex < data.bestTry) {
-            updateStats({ bestTry: rowIndex });
+          if (rowIndex <= data.bestTry) {
+            updateStats({ bestTry: rowIndex + 1 });
           }
           return;
         }
